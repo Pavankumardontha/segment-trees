@@ -18,7 +18,7 @@ long long int sum(int node,int l_n,int h_n,int l_r,int h_r)
 
 void update(int node,int l_n,int h_n,int i,int v) //a[i]=v
 {
-    if(l_n==i && l_h==i)
+    if(l_n==i && h_n==i)
     {
         tree[node] = v;
         a[i]=v;
