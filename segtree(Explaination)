@@ -1,0 +1,67 @@
+/* update function(updating element at index i) and sum(l,r) function */ 
+
+/* Each node has a range called (l_n,h_n) and each given range(taken as input) is represented 
+as (l_r,h_r)*/
+long long int sum(int node,int l_n,int h_n,int l_r,int h_r)
+{
+    if(our node interval completely falls inside our range interval )
+    return t[node];
+    if(our node interval is completely outside of our range interval)
+    return 0;
+    /*If the  above two conditions are not satisfied then our node interval is not completely 
+    outside and is not completely inside our range interval. Only some partial part of the 
+    node interval intercepts the range interval.In this case we have to recursively find the 
+    sum of left subtree and the right subtree.If the parent node is at index i, then its left
+    child is at index (2*i+1) and right child is at index (2*i+2). We will calculate the 
+    ranges of the left node and the right node by calculating the mid element of the current 
+    node range.*/
+    int mid = l_n + (h_n-l_n)/2;
+    return sum(2*node+1,l_n,mid,l_r,h_r) + sum(2*node+2,mid,h_n,l_r,h_r);
+}
+
+void update(int node,int l_n,int h_n,int i,int v) //a[i]=v
+{
+    /*Its important to node that all the leaf nodes in the segment tree are the array 
+    elements and they have the range interval as 1 since l_n=h_n for all leaf nodes*/
+    if(l_n==h_n)
+    {
+        /*here the size of the interval is one and hence its a leaf node and hence update.*/
+        t[node] = v;
+        a[i] = v;
+        return;
+    }
+    if(index i is not in the current node interval)
+    return;
+    /* if index i is in the current node interval and the size of the interval is not one 
+    then in that case we have to apply recursion on left and right subtree same as we have 
+    done int the sum query case. */
+    int mid = l_n + (h_n-l-n)/2;
+    update(2*node+1,l_h,mid,i,v);
+    update(2*node+2,mid+1,h_n,i,v);
+    t[node] = t[2*node+1] + t[2*node+2];
+    return;
+}
+
+void build_tree(int node,int l_n,int h_n)
+{
+    /* if we have 8 elements in our array a[] then we will have 15 elements in the sum 
+    tree.So if we have n elements in the array a[] after padding it to the nearest power 
+    of 2, then we will have 2*n-1 elements in the segment tree.*/
+    
+    /* The most important thing while constructing segment tree is PADDING. We do PADDING 
+    for the array and NOT segment tree. we have make the size of the array as a power of 2 
+    and then only call the build function. This is very very important*/
+    
+    if(l_n==h_n)
+    {
+        tree[node] = a[l_n];
+        return;
+    }
+    else
+    {
+        int mid = l_n + (h_n-l_n)/2;
+        build_tree(2*node+1,l_n,mid);
+        build_tree(2*node+2,mid+1,h_n);
+        tree[node] = tree[2*node+1]+tree[2*node+2];
+    }
+}
